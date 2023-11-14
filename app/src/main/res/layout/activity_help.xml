@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="How to use the app"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="To calculate a subnet:\n\n1. Enter the IP address in the 'IP Address' field.\n2. Enter the subnet mask in the 'Subnet Mask' field.\n3. Press the 'Calculate' button.\n\nThe app will display the network ID, usable IP range, and broadcast address for the provided IP address and subnet mask."
+            android:layout_marginBottom="16dp"
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Determining IP Address Class:\n\nThe app automatically detects the class of the entered IP address and performs the subnet calculation accordingly. It supports Class A, B, and C IP addresses."
+            android:layout_marginBottom="16dp"
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notes:\n\n- The IP address and subnet mask must be valid IPv4 addresses.\n- The app does not support Class D or E IP addresses.\n- Subnet calculations are based on the CIDR (Classless Inter-Domain Routing) method."
+            android:layout_marginBottom="16dp"
+            android:textSize="15sp"
+            />
+
+    </LinearLayout>
+</ScrollView>
