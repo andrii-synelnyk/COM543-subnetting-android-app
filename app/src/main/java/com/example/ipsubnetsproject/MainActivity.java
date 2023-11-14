@@ -92,11 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String calculateSubnetForClassC(String ipAddress, String subnetMask) {
 
-        // Check if the IP address and subnet mask are valid
-        if (!isValidIPAddress(ipAddress) || !isValidIPAddress(subnetMask)) {
-            return "Invalid IP address or subnet mask.";
-        }
-
         // Split IP address and subnet mask into octets
         String[] ipOctets = ipAddress.split("\\.");
         String[] maskOctets = subnetMask.split("\\.");
