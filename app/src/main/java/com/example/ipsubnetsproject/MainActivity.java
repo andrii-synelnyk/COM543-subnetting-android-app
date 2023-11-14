@@ -120,25 +120,24 @@ public class MainActivity extends AppCompatActivity {
         int numberOfNetworks = (int) Math.pow(2, extraBits);
 
         // Calculate all subnets
-        int octet3 = Integer.parseInt(ipOctets[2]);
         int octet4 = 0; // Start from the first possible host in the subnet
 
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < numberOfNetworks; i++) {
             // Network ID
-            String networkID = ipOctets[0] + "." + ipOctets[1] + "." + octet3 + "." + octet4;
+            String networkID = ipOctets[0] + "." + ipOctets[1] + "." + ipOctets[2] + "." + octet4;
 
             // First usable IP
             octet4++;
-            String firstUsableIP = ipOctets[0] + "." + ipOctets[1] + "." + octet3 + "." + octet4;
+            String firstUsableIP = ipOctets[0] + "." + ipOctets[1] + "." + ipOctets[2] + "." + octet4;
 
             // Last usable IP
             octet4 += hostsPerNetwork - 1;
-            String lastUsableIP = ipOctets[0] + "." + ipOctets[1] + "." + octet3 + "." + octet4;
+            String lastUsableIP = ipOctets[0] + "." + ipOctets[1] + "." + ipOctets[2] + "." + octet4;
 
             // Broadcast IP
             octet4++;
-            String broadcastIP = ipOctets[0] + "." + ipOctets[1] + "." + octet3 + "." + octet4;
+            String broadcastIP = ipOctets[0] + "." + ipOctets[1] + "." + ipOctets[2] + "." + octet4;
 
             // Append to result
             result.append("Subnet #").append(i+1)
