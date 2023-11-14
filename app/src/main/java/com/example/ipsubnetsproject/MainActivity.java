@@ -238,7 +238,106 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String calculateSubnetForClassA(String ipAddress, String subnetMask) {
-        return "";
+        // Split IP address and subnet mask into octets
+        String[] ipOctets = ipAddress.split("\\.");
+        String[] maskOctets = subnetMask.split("\\.");
+
+        // Convert subnet mask to binary string
+        String binString = "";
+        for (String octet : maskOctets) {
+            String binary = Integer.toBinaryString(Integer.parseInt(octet));
+            while (binary.length() < 8) {
+                binary = "0" + binary;
+            }
+            binString += binary;
+        }
+
+        // Count the number of 1's in the binary string
+        int count = 0;
+        for (char bit : binString.toCharArray()) {
+            if (bit == '1') {
+                count++;
+            }
+        }
+
+        int hostBits = 32 - count; // total number of bits in IPv4 is 32
+        int hostsPerNetwork = (int) Math.pow(2, hostBits) - 2; // (2 to the power of n) - 2
+        int extraBits = count - 8; // Class A default is 8 bits for the network
+        int numberOfNetworks = (int) Math.pow(2, extraBits);
+
+        // Initialize octets for subnet calculations
+        int octet2 = Integer.parseInt(ipOctets[1]);
+        int octet3 = Integer.parseInt(ipOctets[2]);
+        int octet4 = 0; // Start from the first possible host in the subnet
+
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < numberOfNetworks; i++) {
+            // Network ID
+            String networkID = ipOctets[0] + "." + octet2 + "." + octet3 + "." + octet4;
+
+            // First usable IP
+            octet4++;
+            if (octet4 > 255) {
+                octet4 = 0;
+                octet3++;
+                if (octet3 > 255) {
+                    octet3 = 0;
+                    octet2++;
+                }
+            }
+            String firstUsableIP = ipOctets[0] + "." + octet2 + "." + octet3 + "." + octet4;
+
+            // Calculate Last Usable IP and Broadcast IP
+            int increment = hostsPerNetwork - 1;
+            octet4 += increment % 256;
+            int temp = increment / 256;
+            octet3 += temp % 256;
+            octet2 += temp / 256;
+
+            // Adjust if octet3 and octet4 overflows
+            if (octet4 > 255) {
+                octet4 -= 256;
+                octet3++;
+            }
+            if (octet3 > 255) {
+                octet3 -= 256;
+                octet2++;
+            }
+
+            String lastUsableIP = ipOctets[0] + "." + octet2 + "." + octet3 + "." + octet4;
+
+            // Broadcast IP
+            octet4++;
+            if (octet4 > 255) {
+                octet4 = 0;
+                octet3++;
+                if (octet3 > 255) {
+                    octet3 = 0;
+                    octet2++;
+                }
+            }
+            String broadcastIP = ipOctets[0] + "." + octet2 + "." + octet3 + "." + octet4;
+
+            // Append to result
+            result.append("Subnet #").append(i + 1)
+                    .append("\nNetwork ID: ").append(networkID)
+                    .append("\nUsable Range: ").append(firstUsableIP).append(" - ").append(lastUsableIP)
+                    .append("\nBroadcast IP: ").append(broadcastIP)
+                    .append("\n\n");
+
+            // Prepare octets for the next network
+            octet4++;
+            if (octet4 > 255) {
+                octet4 = 0;
+                octet3++;
+                if (octet3 > 255) {
+                    octet3 = 0;
+                    octet2++;
+                }
+            }
+        }
+
+        return result.toString();
     }
 
     private boolean isValidIPAddress(String ipAddress) {
